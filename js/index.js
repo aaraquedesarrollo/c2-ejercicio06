@@ -55,7 +55,34 @@ const registrosPacientes = [
   },
 ];
 
-function obtenerInformacionPacientes(arrayRegistros) {
+const getNumPacientes = (arrayRegistros) => arrayRegistros.length;
+
+const getPacientesMayoresEdad = (arrayRegistros) =>
+  arrayRegistros.filter((registro) => registro.paciente.edad >= 18).length;
+
+const getNumHombresDiabeticos = (arrayRegistros) =>
+  arrayRegistros.filter(
+    (registro) =>
+      registro.paciente.sexo === "H" && registro.dieta === "Diabetes"
+  ).length;
+
+const getDiasIngresadosTotales = (arrayRegistros) =>
+  arrayRegistros.reduce(
+    (acumulador, registro) => registro.diasIngresado + acumulador,
+    0
+  );
+
+const getMediaEdadMujeres = (arrayRegistros) =>
+  arrayRegistros.reduce(
+    (acumulador, registro) =>
+      registro.paciente.sexo === "M"
+        ? registro.paciente.edad + acumulador
+        : 0 + acumulador,
+    0
+  ) /
+  arrayRegistros.filter((registro) => registro.paciente.sexo === "M").length;
+
+const obtenerInformacionPacientes = (arrayRegistros) => {
   const informacionPacientes = {
     nPacientes: getNumPacientes(arrayRegistros),
     nMayoresEdad: getPacientesMayoresEdad(arrayRegistros),
@@ -64,42 +91,6 @@ function obtenerInformacionPacientes(arrayRegistros) {
     mediaEdadMujeres: getMediaEdadMujeres(arrayRegistros),
   };
   return informacionPacientes;
-}
-
-function getNumPacientes(arrayRegistros) {
-  return arrayRegistros.length;
-}
-
-function getPacientesMayoresEdad(arrayRegistros) {
-  return arrayRegistros.filter((registro) => registro.paciente.edad >= 18)
-    .length;
-}
-
-function getNumHombresDiabeticos(arrayRegistros) {
-  return arrayRegistros.filter(
-    (registro) =>
-      registro.paciente.sexo === "H" && registro.dieta === "Diabetes"
-  ).length;
-}
-
-function getDiasIngresadosTotales(arrayRegistros) {
-  return arrayRegistros.reduce(
-    (acumulador, registro) => registro.diasIngresado + acumulador,
-    0
-  );
-}
-
-function getMediaEdadMujeres(arrayRegistros) {
-  return (
-    arrayRegistros.reduce(
-      (acumulador, registro) =>
-        registro.paciente.sexo === "M"
-          ? registro.paciente.edad + acumulador
-          : 0 + acumulador,
-      0
-    ) /
-    arrayRegistros.filter((registro) => registro.paciente.sexo === "M").length
-  );
-}
+};
 
 console.log(obtenerInformacionPacientes(registrosPacientes));
